@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 from django.urls import reverse
@@ -43,6 +44,11 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
 
     language = models.ForeignKey('Language', on_delete=models.RESTRICT, null=True)
+
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+
+    display_genre.short_description = 'Genre'
 
     def __str__(self):
         return self.title
